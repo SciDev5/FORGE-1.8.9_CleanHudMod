@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import me.scidev.forge.cleanhudmod.HudMod;
 import me.scidev.forge.cleanhudmod.util.ConfigUtil;
 import me.scidev.forge.cleanhudmod.util.TextUtil;
 import net.minecraft.client.Minecraft;
@@ -164,13 +165,23 @@ public class ScreenOverlayGui extends Gui {
 				if (stack.getMaxDamage() > 0)
 					this.drawString(fontRenderer, stack.getMaxDamage()-stack.getItemDamage()+"/"+stack.getMaxDamage(), x+17, y+fontRenderer.FONT_HEIGHT, 0xAA000000|color);
 			}
-			NBTTagList enchlist = stack.getEnchantmentTagList();
-			if (enchlist != null && ConfigUtil.settingsShowItemEnchants.getBoolean()) for (int i = 0; i < enchlist.tagCount(); i ++) {
-				NBTTagCompound tag = enchlist.getCompoundTagAt(i);
-				Enchantment ench = Enchantment.getEnchantmentById(tag.getInteger("id"));
-				if (ench == null) continue;
-				String enchText = ench.getTranslatedName(tag.getInteger("lvl"));
-				this.drawString(fontRenderer, enchText, x, y+fontRenderer.FONT_HEIGHT*(2+i), 0x88000000|color);
+			if (ConfigUtil.settingsShowLoreNotEnchants.getBoolean()) {
+				NBTTagCompound itemInfoTag = stack.serializeNBT().getCompoundTag("tag");
+				NBTTagCompound displayTag = itemInfoTag.getCompoundTag("display"); NBTTagList lorelist = displayTag.getTagList("Lore", 8);
+				HudMod.LOGGER.info(displayTag==null?"NULL":displayTag.toString());
+				if (lorelist != null && ConfigUtil.settingsShowItemEnchants.getBoolean()) for (int i = 0; i < lorelist.tagCount(); i ++) {
+					String text = lorelist.getStringTagAt(i);
+					this.drawString(fontRenderer, text, x, y+fontRenderer.FONT_HEIGHT*(2+i), 0x88000000|color);
+				}
+			} else {
+				NBTTagList enchlist = stack.getEnchantmentTagList();
+				if (enchlist != null && ConfigUtil.settingsShowItemEnchants.getBoolean()) for (int i = 0; i < enchlist.tagCount(); i ++) {
+					NBTTagCompound tag = enchlist.getCompoundTagAt(i);
+					Enchantment ench = Enchantment.getEnchantmentById(tag.getInteger("id"));
+					if (ench == null) continue;
+					String enchText = ench.getTranslatedName(tag.getInteger("lvl"));
+					this.drawString(fontRenderer, enchText, x, y+fontRenderer.FONT_HEIGHT*(2+i), 0x88000000|color);
+				}
 			}
             if (ConfigUtil.settingsShowDefaultItemOverlay.getBoolean())
             	itemRenderer.renderItemOverlays(fontRenderer, stack, x, y);

@@ -43,6 +43,7 @@ public class ConfigUtil {
 	public static Property settingsShowHandItem;
 	public static Property settingsShowPotionEffects;
 	public static Property settingsShowDefaultItemOverlay;
+	public static Property settingsShowLoreNotEnchants;
 	
 	public static void initConfig() {
 		config = new Configuration(new File(Loader.instance().getConfigDir(), HudMod.MODID+".cfg"));
@@ -82,6 +83,7 @@ public class ConfigUtil {
 		settingsShowHandItem = config.get("settings", "showHandItem", true);
 		settingsShowPotionEffects = config.get("settings", "showPotionEffects", true);
 		settingsShowDefaultItemOverlay = config.get("settings", "showDefaultItemOverlay", false);
+		settingsShowLoreNotEnchants = config.get("settings", "showLoreNotEnchants", false);
 		
 	}
 }
