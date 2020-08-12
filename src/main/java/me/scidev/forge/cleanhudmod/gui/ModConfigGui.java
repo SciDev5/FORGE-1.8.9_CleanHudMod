@@ -53,19 +53,17 @@ public class ModConfigGui extends GuiConfig {
     @Override
     protected void actionPerformed(GuiButton button)
     {
-        // You can process any additional buttons you may have added here
-    	if (button.id == 64932) {
-        	
-        	this.entryList.saveConfigElements();
-        	//ConfigUtil.initConfig();
+    	// You can process any additional buttons you may have added here
+    	if (button.id == 64932)
     		mc.displayGuiScreen(new TextPlacementGui(this));
-    	}
-        super.actionPerformed(button);
+    	else
+    		super.actionPerformed(button);
     }
     
     @Override
     public void onGuiClosed() {
     	super.onGuiClosed();
+    	this.entryList.saveConfigElements();
     	ConfigUtil.config.save();
     }
 }
