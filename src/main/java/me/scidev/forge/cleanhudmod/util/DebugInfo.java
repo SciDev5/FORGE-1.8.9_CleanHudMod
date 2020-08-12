@@ -31,7 +31,13 @@ public class DebugInfo {
 	public static DebugInfo getDebugInfo() {
         Entity entity = mc.getRenderViewEntity();
 		
-		List<?> renderInfos = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "renderInfos");
+		List<?> renderInfos = null;
+		try {
+			renderInfos = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "field_72755_R");
+		} catch (Exception e) {
+			// Only executed in dev workspace.
+			renderInfos = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "renderInfos");
+		}
 		
 		Class<?> RG$CLRI;
 		try { RG$CLRI = Class.forName("net.minecraft.client.renderer.RenderGlobal$ContainerLocalRenderInformation");
@@ -43,7 +49,7 @@ public class DebugInfo {
 		Field RG$CLRI$renderChunkField = null;
 		for (Field field : fields) {
 			field.setAccessible(true);
-			if (field.getName().equalsIgnoreCase("renderChunk")) {
+			if (field.getName().equalsIgnoreCase("renderChunk") || field.getName().equalsIgnoreCase("field_178036_a")) {
 				RG$CLRI$renderChunkField = field;
 				break;
 			}
@@ -54,7 +60,12 @@ public class DebugInfo {
 		int TE = 0;
 		
 		double fov = mc.gameSettings.fovSetting;
-		fov *= (float) ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, mc.entityRenderer, "fovModifierHand");
+		try {
+			fov *= (float) ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, mc.entityRenderer, "field_78507_R");
+		} catch (Exception e) {
+			// Only executed in dev workspace.
+			fov *= (float) ObfuscationReflectionHelper.getPrivateValue(EntityRenderer.class, mc.entityRenderer, "fovModifierHand");
+		}
 		Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(mc.theWorld, entity, 0);
 		if (block.getMaterial() == Material.water)
 			fov *= 60.0F / 70.0F;
@@ -105,7 +116,13 @@ public class DebugInfo {
 		//int pC = ((BlockingQueue<?>) ObfuscationReflectionHelper.getPrivateValue(ChunkRenderDispatcher.class, rendisp, "queueChunkUpdates")).size();
 		//int pU = ((Queue<?>) ObfuscationReflectionHelper.getPrivateValue(ChunkRenderDispatcher.class, rendisp, "queueChunkUploads")).size();
 		//int aB = ((BlockingQueue<?>) ObfuscationReflectionHelper.getPrivateValue(ChunkRenderDispatcher.class, rendisp, "queueFreeRenderBuilders")).size();
-		int E = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "countEntitiesRendered");
+		int E;
+		try {
+			E = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "field_72749_I");
+		} catch (Exception e) {
+			// Only executed in dev workspace.
+			E = ObfuscationReflectionHelper.getPrivateValue(RenderGlobal.class, mc.renderGlobal, "countEntitiesRendered");
+		}
 		
 		return new DebugInfo(C, E, TE);
 	}
