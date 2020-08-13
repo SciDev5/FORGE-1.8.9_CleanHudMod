@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 public class HudMod
 {
 	public static final String MODID = "cleanhudmod";
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "1.1.1";
 	public static final Logger LOGGER = LogManager.getLogger(MODID);
 	
 	@Instance
@@ -34,7 +34,7 @@ public class HudMod
 	public void init(FMLInitializationEvent event)
 	{
 		ConfigUtil.initConfig();
-		LOGGER.log(Level.INFO, "Init cleanhudmod v1.0.0");
+		LOGGER.log(Level.INFO, "Init cleanhudmod v1.1.1");
 		MinecraftForge.EVENT_BUS.register(new EventSubscriber());
 	}
 }

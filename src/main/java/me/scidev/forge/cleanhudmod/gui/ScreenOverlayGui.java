@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import me.scidev.forge.cleanhudmod.HudMod;
 import me.scidev.forge.cleanhudmod.util.ConfigUtil;
 import me.scidev.forge.cleanhudmod.util.TextUtil;
 import net.minecraft.client.Minecraft;
@@ -168,7 +167,6 @@ public class ScreenOverlayGui extends Gui {
 			if (ConfigUtil.settingsShowLoreNotEnchants.getBoolean()) {
 				NBTTagCompound itemInfoTag = stack.serializeNBT().getCompoundTag("tag");
 				NBTTagCompound displayTag = itemInfoTag.getCompoundTag("display"); NBTTagList lorelist = displayTag.getTagList("Lore", 8);
-				HudMod.LOGGER.info(displayTag==null?"NULL":displayTag.toString());
 				if (lorelist != null && ConfigUtil.settingsShowItemEnchants.getBoolean()) for (int i = 0; i < lorelist.tagCount(); i ++) {
 					String text = lorelist.getStringTagAt(i);
 					this.drawString(fontRenderer, text, x, y+fontRenderer.FONT_HEIGHT*(2+i), 0x88000000|color);
