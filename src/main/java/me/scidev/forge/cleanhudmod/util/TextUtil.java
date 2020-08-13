@@ -291,7 +291,7 @@ public class TextUtil {
             potionName = potionName + " " + I18n.format("enchantment.level.4", new Object[0]);
             break;
         default:
-            potionName = potionName + " " + Integer.toString(1+effect.getAmplifier());
+            potionName = potionName + " " + Integer.toString(1+(effect.getAmplifier()+256)%256);
             break;
         }
         return potionName + " ("+duration+")";
