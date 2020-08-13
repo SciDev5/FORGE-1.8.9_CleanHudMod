@@ -290,7 +290,7 @@ public class TextUtil {
         case 3:
             potionName = potionName + " " + I18n.format("enchantment.level.4", new Object[0]);
             break;
-        case 4:
+        default:
             potionName = potionName + " " + Integer.toString(1+effect.getAmplifier());
             break;
         }
